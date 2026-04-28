@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>筑波大学達成度評価シート入力・確認支援（非公式）｜情報理工学位プログラム（博士後期課程）用</title>
+  <link rel="stylesheet" href="./styles.css?v=20260428-d">
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx-populate/browser/xlsx-populate.min.js"></script>
+  <script defer src="./app.js?v=20260428-d"></script>
+</head>
+<body class="app-body app-body--compact app-body--unofficial">
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__brand-head">
+        <div class="topbar__brand-copy">
+          <p class="eyebrow" id="brandEyebrow">Unofficial Tsukuba Achievement Helper</p>
+          <h1 class="app-title" id="appTitle">
+            <span class="app-title__line" data-title-line="1">筑波大学達成度評価シート入力・確認支援（非公式）</span>
+            <span class="app-title__line" data-title-line="2">情報理工学位プログラム（博士後期課程）用</span>
+          </h1>
+        </div>
+        <div class="topbar__lang-wrap">
+          <button id="languageToggleBtn" class="button button--small topbar__lang-button" type="button">Language</button>
+        </div>
+      </div>
+      <p class="lead" id="leadText"></p>
+    </div>
+    <div class="topbar__hint" id="guidePanel">
+      <div class="topbar__hint-title" id="guideTitle"></div>
+      <ol class="topbar__steps" id="guideSteps"></ol>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="card control-card">
+      <div class="control-card__grid">
+        <label class="file-drop control-card__file">
+          <input id="xlsxFile" type="file" accept=".xlsx,.xlsm,.xls">
+          <span class="file-drop__title" id="fileTitle"></span>
+          <span class="file-drop__sub" id="fileSub"></span>
+        </label>
+
+        <div class="control-card__mode">
+          <div class="mode-panel__label" id="modeLabel"></div>
+          <div id="modeSwitch" class="mode-switch"></div>
+        </div>
+
+        <div class="control-card__actions">
+          <div class="actions-row actions-row--compact actions-row--wrap">
+            <button id="seedFinalBtn" class="button button--small" type="button"></button>
+            <button id="applyPlanBtn" class="button button--primary" type="button" disabled></button>
+            <button id="downloadBtn" class="button" type="button" disabled></button>
+            <button id="reloadPlanBtn" class="button" type="button" disabled></button>
+            <button id="clearPlanBtn" class="button button--danger" type="button" disabled></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-stack">
+        <div id="modeInfo" class="status status--muted"></div>
+        <div id="workbookStatus" class="status status--muted"></div>
+        <div id="syncStatus" class="sync-status"></div>
+      </div>
+    </section>
+
+    <section class="summary-strip summary-strip--wide sticky-overview compact-overview">
+      <div class="summary-card">
+        <span id="summaryCourseCountLabel">授業科目数</span>
+        <strong id="planCourseCount">0</strong>
+      </div>
+      <div class="summary-card">
+        <span id="summaryCreditsLabel">単位数</span>
+        <strong id="planCredits">0</strong>
+      </div>
+      <div class="summary-card">
+        <span id="summaryCourseSubtotalLabel">授業科目小計</span>
+        <strong id="planPointsTotal">0</strong>
+      </div>
+      <div class="summary-card">
+        <span id="summaryExtraCountLabel">授業科目以外件数</span>
+        <strong id="extraItemCount">0</strong>
+      </div>
+      <div class="summary-card">
+        <span id="summaryExtraSubtotalLabel">授業科目以外小計</span>
+        <strong id="extraPointsTotal">0</strong>
+      </div>
+      <div class="summary-card">
+        <span id="summaryProjectedLabel">見込み合計</span>
+        <strong id="projectedTotal">0</strong>
+      </div>
+      <div class="summary-card summary-card--accent">
+        <span id="summaryUnmetLabel">未達観点</span>
+        <strong id="unmetCount">0 / 20</strong>
+      </div>
+    </section>
+
+    <section class="workspace-switcher">
+      <div class="workspace-switcher__tabs" id="workspaceTabs">
+        <button type="button" class="workspace-tab is-active" data-workspace="courses" id="tabCourses">授業検索・授業科目</button>
+        <button type="button" class="workspace-tab" data-workspace="extras" id="tabExtras">授業科目以外</button>
+        <button type="button" class="workspace-tab" data-workspace="draft" id="tabDraft">ドラフト・差分</button>
+        <button type="button" class="workspace-tab" data-workspace="review" id="tabReview">確認</button>
+      </div>
+    </section>
+
+    <section class="workspace-panel is-active" data-workspace-panel="courses">
+      <div class="compact-grid compact-grid--search">
+        <section class="card compact-card compact-card--search">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="searchPanelTitle">授業検索</h2>
+              <p id="searchPanelDesc"></p>
+            </div>
+          </div>
+
+          <div class="search-box">
+            <input id="searchInput" type="search">
+          </div>
+          <div class="search-meta-stack">
+            <div id="searchMeta" class="search-meta"></div>
+          </div>
+          <div id="searchResults" class="results results--compact results--scroll"></div>
+        </section>
+
+        <div class="stack stack--dense stack--search-side">
+          <div class="search-side-switcher" id="searchSideSwitcher"></div>
+
+          <section class="card compact-card compact-card--editor" data-side-view-card="editor">
+            <div class="section-heading section-heading--compact">
+              <div>
+                <h2 id="editorTitle">授業科目の配点</h2>
+                <p id="editorDesc"></p>
+              </div>
+            </div>
+
+            <div class="subsection-title" id="fixedRowsTitle"></div>
+            <div id="fixedCourseButtons" class="quick-grid quick-grid--compact"></div>
+
+            <div id="selectedCourseBox" class="selected-course empty"></div>
+
+            <div class="controls-grid controls-grid--compact">
+              <label>
+                <span id="splitModeLabel"></span>
+                <select id="splitMode">
+                  <option value="smart"></option>
+                  <option value="required"></option>
+                  <option value="even"></option>
+                </select>
+              </label>
+              <label>
+                <span id="targetRowLabel"></span>
+                <select id="targetRow"></select>
+              </label>
+            </div>
+
+            <div class="preview-head preview-head--sticky">
+              <div>
+                <strong id="coursePreviewTitle"></strong>
+                <span class="muted" id="coursePreviewHint"></span>
+              </div>
+              <div class="preview-head__actions">
+                <div id="previewTotal" class="preview-total">0</div>
+                <button id="courseRecomputeBtn" class="button button--small" type="button"></button>
+              </div>
+            </div>
+            <div id="previewGrid" class="preview-grid preview-grid--compact preview-grid--scroll"></div>
+
+            <div class="actions-row actions-row--end actions-row--compact">
+              <button id="planAddBtn" class="button button--primary" type="button" disabled></button>
+            </div>
+          </section>
+
+          <section class="card compact-card compact-card--timetable" data-side-view-card="timetable">
+            <div class="section-heading section-heading--compact">
+              <div>
+                <h2 id="timetableTitle"></h2>
+                <p id="timetableDesc"></p>
+              </div>
+              <span id="scheduleStatus" class="badge"></span>
+            </div>
+
+            <div class="inline-actions inline-actions--between">
+              <div id="scheduleUpdated" class="side-card__meta muted"></div>
+              <div class="button-group-inline">
+                <label class="button button--small file-inline" id="scheduleFileLabel">
+                  KdB JSON
+                  <input id="scheduleFile" type="file" accept=".json,application/json">
+                </label>
+                <button id="reloadScheduleBtn" class="button button--small" type="button"></button>
+              </div>
+            </div>
+
+            <div id="scheduleTermTabs" class="term-tabs"></div>
+            <div id="timetableGrid" class="timetable-table-wrap"></div>
+            <div id="timetableSummary" class="timetable-summary"></div>
+            <div id="timetableUnscheduled" class="timetable-unscheduled"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace-panel" data-workspace-panel="extras">
+      <div class="compact-grid compact-grid--extras">
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="extrasTitle"></h2>
+              <p id="extrasDesc"></p>
+            </div>
+          </div>
+
+          <div class="controls-grid controls-grid--compact">
+            <label>
+              <span id="extraTypeLabel"></span>
+              <select id="extraType"></select>
+            </label>
+            <label>
+              <span id="extraSplitModeLabel"></span>
+              <select id="extraSplitMode">
+                <option value="smart"></option>
+                <option value="required"></option>
+                <option value="even"></option>
+              </select>
+            </label>
+          </div>
+
+          <div id="extraDynamicFields" class="dynamic-fields"></div>
+
+          <div class="preview-head">
+            <div>
+              <strong id="extraPreviewTitle"></strong>
+              <span class="muted" id="extraPreviewHint"></span>
+            </div>
+            <div class="preview-head__actions">
+              <div id="extraPreviewTotal" class="preview-total">0</div>
+              <button id="extraRecomputeBtn" class="button button--small" type="button"></button>
+            </div>
+          </div>
+
+          <div id="extraPreviewGrid" class="preview-grid preview-grid--compact preview-grid--scroll"></div>
+
+          <div class="actions-row actions-row--end actions-row--compact">
+            <button id="extraUseBtn" class="button button--primary" type="button"></button>
+            <button id="extraClearBtn" class="button" type="button"></button>
+          </div>
+        </section>
+
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="extraListTitle"></h2>
+              <p id="extraListDesc"></p>
+            </div>
+          </div>
+          <div id="extraList" class="plan-list plan-list--scroll"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="workspace-panel" data-workspace-panel="draft">
+      <div class="compact-grid compact-grid--draft">
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="draftCoursesTitle"></h2>
+              <p id="draftCoursesDesc"></p>
+            </div>
+          </div>
+          <div id="planList" class="plan-list plan-list--scroll"></div>
+        </section>
+
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="gapTitle"></h2>
+              <p id="gapDesc"></p>
+            </div>
+          </div>
+          <div id="gapTableWrap" class="table-scroll table-scroll--tall"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="workspace-panel" data-workspace-panel="review">
+      <div class="compact-grid compact-grid--review">
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="reviewTitle"></h2>
+              <p id="reviewDesc"></p>
+            </div>
+          </div>
+          <div class="actions-row">
+            <button id="reviewButton" class="button button--primary" type="button"></button>
+          </div>
+          <div id="reviewStatus" class="status status--muted"></div>
+          <div id="reviewOverview" class="review-overview"></div>
+        </section>
+
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="reviewGapTitle"></h2>
+              <p id="reviewGapDesc"></p>
+            </div>
+          </div>
+          <div id="reviewGapList" class="table-scroll"></div>
+        </section>
+
+        <section class="card compact-card">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <h2 id="reviewExternalTitle"></h2>
+              <p id="reviewExternalDesc"></p>
+            </div>
+          </div>
+          <div id="reviewExternalList" class="plan-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,303 @@
+{
+  "meta": {
+    "program": "Doctoral Program in Computer Science",
+    "sourceUrl": "https://www.tsukuba.ac.jp/education/policy-tstandard/gstandard/pdf/2026/dp-systems-information-engineering-c.pdf",
+    "notes": [
+      "Official 8-competence values extracted for doctoral Computer Science courses in the Systems and Information Engineering programs.",
+      "When official 8-competence values exist, the app converts them into 20 evaluation perspectives for the D evaluation sheet.",
+      "All other graduate courses loaded from kdb-grad.json are searchable and default to credits x 100 points with smart/required/even allocation."
+    ]
+  },
+  "courses": [
+    {
+      "code": "0BLD502",
+      "nameJa": "研究型インターンシップI",
+      "nameEn": "Research Internship I",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        10,
+        10,
+        10,
+        10,
+        0,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "code": "0BLD503",
+      "nameJa": "研究型インターンシップII",
+      "nameEn": "Research Internship II",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        10,
+        10,
+        10,
+        10,
+        0,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "code": "0BLD504",
+      "nameJa": "情報理工後期特別研究",
+      "nameEn": "Research in Computer Science",
+      "credits": 6,
+      "total": 600,
+      "points8": [
+        80,
+        70,
+        70,
+        70,
+        70,
+        80,
+        80,
+        80
+      ],
+      "fixedRow": 11,
+      "slotKey": "research"
+    },
+    {
+      "code": "0BLD505",
+      "nameJa": "情報理工後期特別演習A",
+      "nameEn": "Computer Science Seminar A",
+      "credits": 2,
+      "total": 200,
+      "points8": [
+        30,
+        20,
+        20,
+        20,
+        20,
+        30,
+        30,
+        30
+      ],
+      "fixedRow": 12,
+      "slotKey": "seminarA"
+    },
+    {
+      "code": "0BLD506",
+      "nameJa": "情報理工後期特別演習B",
+      "nameEn": "Computer Science Seminar B",
+      "credits": 2,
+      "total": 200,
+      "points8": [
+        30,
+        20,
+        20,
+        20,
+        20,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "code": "0BLD507",
+      "nameJa": "情報理工後期特別研究s",
+      "nameEn": "Research in Computer Science s",
+      "credits": 3,
+      "total": 300,
+      "points8": [
+        40,
+        35,
+        35,
+        35,
+        35,
+        40,
+        40,
+        40
+      ],
+      "fixedRow": 11,
+      "slotKey": "research",
+      "splitEquivalent": true
+    },
+    {
+      "code": "0BLD508",
+      "nameJa": "情報理工後期特別研究f",
+      "nameEn": "Research in Computer Science f",
+      "credits": 3,
+      "total": 300,
+      "points8": [
+        40,
+        35,
+        35,
+        35,
+        35,
+        40,
+        40,
+        40
+      ],
+      "fixedRow": 11,
+      "slotKey": "research",
+      "splitEquivalent": true
+    },
+    {
+      "code": "0BLD509",
+      "nameJa": "情報理工後期特別演習As",
+      "nameEn": "Computer Science Seminar As",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        15,
+        10,
+        10,
+        10,
+        10,
+        15,
+        15,
+        15
+      ],
+      "fixedRow": 12,
+      "slotKey": "seminarA",
+      "splitEquivalent": true
+    },
+    {
+      "code": "0BLD510",
+      "nameJa": "情報理工後期特別演習Af",
+      "nameEn": "Computer Science Seminar Af",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        15,
+        10,
+        10,
+        10,
+        10,
+        15,
+        15,
+        15
+      ],
+      "fixedRow": 12,
+      "slotKey": "seminarA",
+      "splitEquivalent": true
+    },
+    {
+      "code": "0BLD511",
+      "nameJa": "情報理工後期特別演習Bs",
+      "nameEn": "Computer Science Seminar Bs",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        15,
+        10,
+        10,
+        10,
+        10,
+        15,
+        15,
+        15
+      ]
+    },
+    {
+      "code": "0BLD512",
+      "nameJa": "情報理工後期特別演習Bf",
+      "nameEn": "Computer Science Seminar Bf",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        15,
+        10,
+        10,
+        10,
+        10,
+        15,
+        15,
+        15
+      ]
+    },
+    {
+      "code": "0BLD513",
+      "nameJa": "AI社会実践インターンシップ",
+      "nameEn": "AI Social Practice Internship",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        10,
+        10,
+        10,
+        10,
+        0,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "code": "0BLD514",
+      "nameJa": "情報理工分野横断後期特別演習",
+      "nameEn": "Cross-Disciplinary Seminar in Computer Science",
+      "credits": 2,
+      "total": 200,
+      "points8": [
+        30,
+        20,
+        20,
+        20,
+        20,
+        30,
+        30,
+        30
+      ],
+      "fixedRow": 13,
+      "slotKey": "cross"
+    },
+    {
+      "code": "0BLD516",
+      "nameJa": "情報理工後期研究発表演習I",
+      "nameEn": "Advanced Research Presentation in Computer Science I",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        0,
+        0,
+        30,
+        0,
+        30,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "code": "0BLD517",
+      "nameJa": "情報理工後期研究発表演習II",
+      "nameEn": "Advanced Research Presentation in Computer Science II",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        0,
+        0,
+        30,
+        0,
+        30,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "code": "0BLD518",
+      "nameJa": "情報理工後期研究発表演習III",
+      "nameEn": "Advanced Research Presentation in Computer Science III",
+      "credits": 1,
+      "total": 100,
+      "points8": [
+        0,
+        0,
+        30,
+        0,
+        30,
+        40,
+        0,
+        0
+      ]
+    }
+  ]
+}
